@@ -35,9 +35,6 @@
 
 namespace std {
 
-template <typename _Elem, typename _Traits>
-class basic_ostream;
-
 template <typename _Elem, typename _Traits, typename _Ty, typename _Alloc, template <typename, typename> typename _Container>
 basic_ostream<_Elem, _Traits> & operator<<(basic_ostream<_Elem, _Traits> & _Ostr, _Container<_Ty, _Alloc> const & _Right) {
   _Ostr << "[";
@@ -49,3 +46,11 @@ basic_ostream<_Elem, _Traits> & operator<<(basic_ostream<_Elem, _Traits> & _Ostr
 } // namespace std
 
 using namespace std;
+
+template <typename _Elem, typename _Traits, typename _Ty>
+basic_ostream<_Elem, _Traits> & printParameterPacks(basic_ostream<_Elem, _Traits> & _Ostr, _Ty && _Arg) { return _Ostr << _Arg; }
+
+template <typename _Elem, typename _Traits, typename _Ty, typename... _Types>
+basic_ostream<_Elem, _Traits> & printParameterPacks(basic_ostream<_Elem, _Traits> & _Ostr, _Ty && _Arg, _Types &&... _Args) { return printParameterPacks(_Ostr << _Arg << ", ", _Args...); }
+
+size_t X = 0, Q = 0;

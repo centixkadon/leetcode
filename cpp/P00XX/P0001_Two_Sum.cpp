@@ -12,41 +12,40 @@ public:
     }
     return { 0, 1 };
   }
-};
+} s;
 
 class TestCase {
 public:
-  TestCase() : s(), X(0), Q(0) {
-    test({ 0, 1 }, { 2, 7, 11, 15 }, 9);
-    test({ 1, 3 }, { 2, 7, 11, 15 }, 22);
-    test({ 1, 2 }, { 3, 2, 4 }, 6);
+  TestCase() {
+    cout << "P0001: Two Sum." << endl;
+
+    auto && f = testAnswer<vector<int>, vector<int>, int>;
+    f({ 0, 1 }, { 2, 7, 11, 15 }, 9);
+    f({ 1, 3 }, { 2, 7, 11, 15 }, 22);
+    f({ 1, 2 }, { 3, 2, 4 }, 6);
 
     cout << "Point: " << (Q - X) << "/" << Q << endl;
   }
 
 private:
   template <typename _Ty>
-  bool compare(_Ty const & l, _Ty const & r) { return l == r; }
+  static bool compareAnswer(_Ty const & l, _Ty const & r) { return l == r; }
 
-  void test(vector<int> const & ans, vector<int> const & nums, int target) {
-    auto && _ans = s.twoSum(const_cast<vector<int> &>(nums), target);
+  template <typename _Ans, typename... _Types>
+  static void testAnswer(_Ans && ans, _Types &&... args) {
+    _Ans && _ans = s.twoSum(const_cast<_Types &>(args)...);
 
-    if (!compare(ans, _ans)) {
-      cout << "Q: " << nums << ", " << target << endl;
-      cout << "O: " << ans << endl;
-      cout << "X: " << _ans << endl;
+    ++Q;
+    if (!compareAnswer(ans, _ans)) {
+      printParameterPacks(cout << Q << " Q: ", args...) << endl;
+      cout << Q << " O: " << ans << endl;
+      cout << Q << " X: " << _ans << endl;
       ++X;
     }
-    ++Q;
   }
-
-  Solution s;
-  size_t X, Q;
 };
 
 int main() {
-  cout << "P0001: Two Sum." << endl;
-
   TestCase();
 
   return 0;

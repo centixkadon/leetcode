@@ -20,43 +20,42 @@ public:
     }
     return ans;
   }
-};
+} s;
 
 class TestCase {
 public:
-  TestCase() : s(), X(0), Q(0) {
-    test("", "");
-    test("a", "a");
-    test("a", "abcd");
-    test("bab", "babad");
-    test("bb", "cbbd");
+  TestCase() {
+    cout << "P0005: Longest Palindromic Substring." << endl;
+
+    auto && f = testAnswer<string, string>;
+    f("", "");
+    f("a", "a");
+    f("a", "abcd");
+    f("bab", "babad");
+    f("bb", "cbbd");
 
     cout << "Point: " << (Q - X) << "/" << Q << endl;
   }
 
 private:
   template <typename _Ty>
-  bool compare(_Ty const & l, _Ty const & r) { return l == r; }
+  static bool compareAnswer(_Ty const & l, _Ty const & r) { return l == r; }
 
-  void test(string const & ans, string const & str) {
-    auto && _ans = s.longestPalindrome(str);
+  template <typename _Ans, typename... _Types>
+  static void testAnswer(_Ans && ans, _Types &&... args) {
+    _Ans && _ans = s.longestPalindrome(const_cast<_Types &>(args)...);
 
     ++Q;
-    if (!compare(ans, _ans)) {
-      cout << Q << " Q: " << str << endl;
+    if (!compareAnswer(ans, _ans)) {
+      printParameterPacks(cout << Q << " Q: ", args...) << endl;
       cout << Q << " O: " << ans << endl;
       cout << Q << " X: " << _ans << endl;
       ++X;
     }
   }
-
-  Solution s;
-  size_t X, Q;
 };
 
 int main() {
-  cout << "P0005: Longest Palindromic Substring." << endl;
-
   TestCase();
 
   return 0;

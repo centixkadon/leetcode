@@ -29,10 +29,10 @@ public:
     }
     return h;
   }
-};
+} s;
 
 template <typename _Elem, typename _Traits>
-basic_ostream<_Elem, _Traits> & operator<<(basic_ostream<_Elem, _Traits> & _Ostr, ListNode * _Right) {
+basic_ostream<_Elem, _Traits> & operator<<(basic_ostream<_Elem, _Traits> & _Ostr, ListNode const * _Right) {
   while (_Right != NULL) {
     _Ostr << _Right->val;
     _Right = _Right->next;
@@ -42,27 +42,21 @@ basic_ostream<_Elem, _Traits> & operator<<(basic_ostream<_Elem, _Traits> & _Ostr
 
 class TestCase {
 public:
-  TestCase() : s(), X(0), Q(0) {
-    test(itol(0), itol(0), itol(0));
-    test(itol(10), itol(10), itol(0));
-    test(itol(10), itol(0), itol(10));
-    test(itol(20), itol(10), itol(10));
-    test(itol(1998), itol(999), itol(999));
+  TestCase() {
+    cout << "P0002: Add Two Numbers." << endl;
+
+    auto && f = testAnswer<ListNode *, ListNode *, ListNode *>;
+    f(itol(0), itol(0), itol(0));
+    f(itol(10), itol(10), itol(0));
+    f(itol(10), itol(0), itol(10));
+    f(itol(20), itol(10), itol(10));
+    f(itol(1998), itol(999), itol(999));
+
     cout << "Point: " << (Q - X) << "/" << Q << endl;
   }
 
 private:
-  ListNode * itol(int i) {
-    string s = move(static_cast<stringstream &>(stringstream() << i).str());
-    ListNode * h = NULL;
-    for (auto c : s) {
-      auto p = h;
-      h = new ListNode(c - '0');
-      h->next = p;
-    }
-  }
-
-  bool compare(ListNode const * l, ListNode const * r) {
+  static bool compareAnswer(ListNode const * l, ListNode const * r) {
     while ((l != NULL) && (r != NULL)) {
       if (l->val != r->val) return false;
       l = l->next;
@@ -72,25 +66,32 @@ private:
     return true;
   }
 
-  void test(ListNode * ans, ListNode * l1, ListNode * l2) {
-    auto && _ans = s.addTwoNumbers(l1, l2);
+  template <typename _Ans, typename... _Types>
+  static void testAnswer(_Ans && ans, _Types &&... args) {
+    _Ans && _ans = s.addTwoNumbers(const_cast<_Types &>(args)...);
 
     ++Q;
-    if (!compare(ans, _ans)) {
-      cout << Q << " Q: " << l1 << ", " << l2 << endl;
+    if (!compareAnswer(ans, _ans)) {
+      printParameterPacks(cout << Q << " Q: ", args...) << endl;
       cout << Q << " O: " << ans << endl;
       cout << Q << " X: " << _ans << endl;
       ++X;
     }
   }
 
-  Solution s;
-  size_t X, Q;
+  static ListNode * itol(int i) {
+    string s = move(static_cast<stringstream &>(stringstream() << i).str());
+    ListNode * h = NULL;
+    for (auto c : s) {
+      auto p = h;
+      h = new ListNode(c - '0');
+      h->next = p;
+    }
+    return h;
+  }
 };
 
 int main() {
-  cout << "P0002: Add Two Numbers." << endl;
-
   TestCase();
 
   return 0;

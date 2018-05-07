@@ -4,42 +4,41 @@
 class Solution {
 public:
   int test(int a) { return a; }
-};
+} s;
 
 class TestCase {
 public:
-  TestCase() : s(), X(0), Q(0) {
-    test(1, 1);
-    test(2, 2);
-    test(4, 3);
-    test(8, 4);
+  TestCase() {
+    cout << "P0000: Template." << endl;
+
+    auto && f = TestCase::testAnswer<int, int>;
+    f(1, 1);
+    f(2, 2);
+    f(4, 3);
+    f(8, 4);
 
     cout << "Point: " << (Q - X) << "/" << Q << endl;
   }
 
 private:
   template <typename _Ty>
-  bool compare(_Ty const & l, _Ty const & r) { return l == r; }
+  static bool compareAnswer(_Ty const & l, _Ty const & r) { return l == r; }
 
-  void test(int ans, int in) {
-    auto && _ans = s.test(in);
+  template <typename _Ans, typename... _Types>
+  static void testAnswer(_Ans && ans, _Types &&... args) {
+    _Ans && _ans = s.test(const_cast<_Types &>(args)...);
 
     ++Q;
-    if (!compare(ans, _ans)) {
-      cout << Q << " Q: " << in << endl;
+    if (!compareAnswer(ans, _ans)) {
+      printParameterPacks(cout << Q << " Q: ", args...) << endl;
       cout << Q << " O: " << ans << endl;
       cout << Q << " X: " << _ans << endl;
       ++X;
     }
   }
-
-  Solution s;
-  size_t X, Q;
 };
 
 int main() {
-  cout << "P0000: Template." << endl;
-
   TestCase();
 
   return 0;

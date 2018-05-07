@@ -43,53 +43,48 @@ public:
       }
     }
   }
-};
+} s;
 
 class TestCase {
 public:
-  TestCase() : s(), X(0), Q(0) {
-    test(0.0, {}, {});
-    test(1.0, { 1 }, {});
-    test(1.0, {}, { 1 });
-    test(2.5, {}, { 2, 3 });
-    test(2.0, { 1, 3 }, { 2 });
-    test(2.5, { 1, 2 }, { 3, 4 });
-    test(2.5, { 1, 3 }, { 2, 4 });
-    test(2.5, { 1, 4 }, { 2, 3 });
-    test(2.5, { 2, 3 }, { 1, 4 });
-    test(2.5, { 2, 4 }, { 1, 3 });
-    test(2.5, { 3, 4 }, { 1, 2 });
+  TestCase() {
+    cout << "P0004: Median of Two Sorted Arrays." << endl;
+
+    auto && f = testAnswer<double, vector<int>, vector<int>>;
+    f(0.0, {}, {});
+    f(1.0, { 1 }, {});
+    f(1.0, {}, { 1 });
+    f(2.5, {}, { 2, 3 });
+    f(2.0, { 1, 3 }, { 2 });
+    f(2.5, { 1, 2 }, { 3, 4 });
+    f(2.5, { 1, 3 }, { 2, 4 });
+    f(2.5, { 1, 4 }, { 2, 3 });
+    f(2.5, { 2, 3 }, { 1, 4 });
+    f(2.5, { 2, 4 }, { 1, 3 });
+    f(2.5, { 3, 4 }, { 1, 2 });
 
     cout << "Point: " << (Q - X) << "/" << Q << endl;
   }
 
 private:
   template <typename _Ty>
-  bool compare(_Ty const & l, _Ty const & r) { return l == r; }
+  static bool compareAnswer(_Ty const & l, _Ty const & r) { return l == r; }
 
-  // double const _e = 0.001;
-  // template <>
-  // bool compare(double const & l, double const & r) { return (r - _e < l) && (l < r + _e); }
-
-  void test(double ans, vector<int> const & nums1, vector<int> const & nums2) {
-    auto && _ans = s.findMedianSortedArrays(const_cast<vector<int> &>(nums1), const_cast<vector<int> &>(nums2));
+  template <typename _Ans, typename... _Types>
+  static void testAnswer(_Ans && ans, _Types &&... args) {
+    _Ans && _ans = s.findMedianSortedArrays(const_cast<_Types &>(args)...);
 
     ++Q;
-    if (!compare(ans, _ans)) {
-      cout << Q << " Q: " << nums1 << ", " << nums2 << endl;
+    if (!compareAnswer(ans, _ans)) {
+      printParameterPacks(cout << Q << " Q: ", args...) << endl;
       cout << Q << " O: " << ans << endl;
       cout << Q << " X: " << _ans << endl;
       ++X;
     }
   }
-
-  Solution s;
-  size_t X, Q;
 };
 
 int main() {
-  cout << "P0004: Median of Two Sorted Arrays." << endl;
-
   TestCase();
 
   return 0;

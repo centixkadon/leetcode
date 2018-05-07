@@ -24,43 +24,42 @@ public:
     }
     return ans;
   }
-};
+} s;
 
 class TestCase {
 public:
-  TestCase() : s(), X(0), Q(0) {
-    test(3, "abcabcbb");
-    test(1, "bbbbb");
-    test(3, "pwwkew");
-    test(1, "a");
-    test(0, "");
+  TestCase() {
+    cout << "P0003: Longest Substring Without Repeating Characters." << endl;
+
+    auto && f = testAnswer<int, string>;
+    f(3, "abcabcbb");
+    f(1, "bbbbb");
+    f(3, "pwwkew");
+    f(1, "a");
+    f(0, "");
 
     cout << "Point: " << (Q - X) << "/" << Q << endl;
   }
 
 private:
   template <typename _Ty>
-  bool compare(_Ty const & l, _Ty const & r) { return l == r; }
+  static bool compareAnswer(_Ty const & l, _Ty const & r) { return l == r; }
 
-  void test(int ans, string const & in) {
-    auto && _ans = s.lengthOfLongestSubstring(in);
+  template <typename _Ans, typename... _Types>
+  static void testAnswer(_Ans && ans, _Types &&... args) {
+    _Ans && _ans = s.lengthOfLongestSubstring(const_cast<_Types &>(args)...);
 
     ++Q;
-    if (!compare(ans, _ans)) {
-      cout << Q << " Q: " << in << endl;
+    if (!compareAnswer(ans, _ans)) {
+      printParameterPacks(cout << Q << " Q: ", args...) << endl;
       cout << Q << " O: " << ans << endl;
       cout << Q << " X: " << _ans << endl;
       ++X;
     }
   }
-
-  Solution s;
-  size_t X, Q;
 };
 
 int main() {
-  cout << "P0003: Longest Substring Without Repeating Characters." << endl;
-
   TestCase();
 
   return 0;
