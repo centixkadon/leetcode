@@ -43,7 +43,9 @@ public:
       }
     }
   }
-} s;
+};
+
+Solution s;
 
 class TestCase {
 public:

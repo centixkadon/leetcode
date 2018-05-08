@@ -4,15 +4,17 @@
 class Solution {
 public:
   vector<int> twoSum(vector<int> & nums, int target) {
-    map<int, int> m;
-    for (int i = 0; i < nums.size(); ++i) m[nums[i]] = i;
-    for (int i = 0; i < nums.size(); ++i) {
+    map<int, size_t> m;
+    for (size_t i = 0; i < nums.size(); ++i) m[nums[i]] = i;
+    for (size_t i = 0; i < nums.size(); ++i) {
       auto p = m.find(target - nums[i]);
-      if ((p != m.end()) && (i != p->second)) return { i, p->second };
+      if ((p != m.end()) && (i != p->second)) return { static_cast<int>(i), static_cast<int>(p->second) };
     }
     return { 0, 1 };
   }
-} s;
+};
+
+Solution s;
 
 class TestCase {
 public:

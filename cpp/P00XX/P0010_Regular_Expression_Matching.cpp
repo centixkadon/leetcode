@@ -24,14 +24,16 @@ private:
     }
     return false;
   }
-} s;
+};
+
+Solution s;
 
 class TestCase {
 public:
   TestCase() {
     cout << "P0010: Regular Expression Matching." << endl;
 
-    auto && f = TestCase::testAnswer<bool, string, string>;
+    auto && f = testAnswer<bool, string, string>;
     f(false, "a", "aa");
     f(false, "aa", "a");
     f(true, "aa", "a*");

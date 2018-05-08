@@ -45,14 +45,16 @@ public:
     }
     return ans;
   }
-} s;
+};
+
+Solution s;
 
 class TestCase {
 public:
   TestCase() {
     cout << "P0008: String to Integer (atoi)." << endl;
 
-    auto && f = TestCase::testAnswer<int, string>;
+    auto && f = testAnswer<int, string>;
     f(0, "words and 987");
     f(0, "");
     f(0, "-");

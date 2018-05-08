@@ -4,14 +4,16 @@
 class Solution {
 public:
   int test(int a) { return a; }
-} s;
+};
+
+Solution s;
 
 class TestCase {
 public:
   TestCase() {
     cout << "P0000: Template." << endl;
 
-    auto && f = TestCase::testAnswer<int, int>;
+    auto && f = testAnswer<int, int>;
     f(1, 1);
     f(2, 2);
     f(4, 3);

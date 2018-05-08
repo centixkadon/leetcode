@@ -3,14 +3,20 @@
 
 class Solution {
 public:
-  bool isPalindrome(int x) {
-    if ((x < 0) || ((x % 10 == 0) && (x != 0))) return false;
-    int ans = 0;
-    while (x > ans) {
-      ans = ans * 10 + x % 10;
-      x /= 10;
+  string intToRoman(int num) {
+    string r = "IVXLCDM";
+    string ans = "";
+    for (size_t i = 0; num != 0; ++i) {
+      int k = num % 10;
+      int p = (k + 1) / 5;
+      int j = k - p * 5;
+      string mid = "";
+      if (p != 0) mid = r[i * 2 + p];
+      ans = string(max(-j, 0), r[i * 2]) + mid + string(max(j, 0), r[i * 2]) + ans;
+
+      num /= 10;
     }
-    return (x == ans) || (x == ans / 10);
+    return ans;
   }
 };
 
@@ -19,13 +25,14 @@ Solution s;
 class TestCase {
 public:
   TestCase() {
-    cout << "P0009: Palindrome Number." << endl;
+    cout << "P0012: Integer to Roman." << endl;
 
-    auto && f = testAnswer<bool, int>;
-    f(false, -121);
-    f(false, 10);
-    f(true, 121);
-    f(true, 1221);
+    auto && f = testAnswer<string, int>;
+    f("III", 3);
+    f("IV", 4);
+    f("IX", 9);
+    f("LVIII", 58);
+    f("MCMXCIV", 1994);
 
     cout << "Point: " << (Q - X) << "/" << Q << endl;
   }
@@ -36,7 +43,7 @@ private:
 
   template <typename _Ans, typename... _Types>
   static void testAnswer(_Ans && ans, _Types &&... args) {
-    _Ans && _ans = s.isPalindrome(const_cast<_Types &>(args)...);
+    _Ans && _ans = s.intToRoman(const_cast<_Types &>(args)...);
 
     ++Q;
     if (!compareAnswer(ans, _ans)) {

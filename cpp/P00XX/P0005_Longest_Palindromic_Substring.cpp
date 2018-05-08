@@ -20,7 +20,9 @@ public:
     }
     return ans;
   }
-} s;
+};
+
+Solution s;
 
 class TestCase {
 public:

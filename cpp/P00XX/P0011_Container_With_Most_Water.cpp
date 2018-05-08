@@ -3,14 +3,17 @@
 
 class Solution {
 public:
-  bool isPalindrome(int x) {
-    if ((x < 0) || ((x % 10 == 0) && (x != 0))) return false;
+  int maxArea(vector<int> & height) {
+    size_t l = 0, r = height.size() - 1;
     int ans = 0;
-    while (x > ans) {
-      ans = ans * 10 + x % 10;
-      x /= 10;
+    while (l < r) {
+      ans = max(ans, static_cast<int>((r - l) * min(height[l], height[r])));
+      if (height[l] <= height[r])
+        ++l;
+      else
+        --r;
     }
-    return (x == ans) || (x == ans / 10);
+    return ans;
   }
 };
 
@@ -19,13 +22,12 @@ Solution s;
 class TestCase {
 public:
   TestCase() {
-    cout << "P0009: Palindrome Number." << endl;
+    cout << "P0011: Container With Most Water." << endl;
 
-    auto && f = testAnswer<bool, int>;
-    f(false, -121);
-    f(false, 10);
-    f(true, 121);
-    f(true, 1221);
+    auto && f = testAnswer<int, vector<int>>;
+    f(1, { 1, 1000 });
+    f(10, { 1, 1, 10, 10, 1, 1 });
+    f(5, { 1, 1, 2, 2, 1, 1 });
 
     cout << "Point: " << (Q - X) << "/" << Q << endl;
   }
@@ -36,7 +38,7 @@ private:
 
   template <typename _Ans, typename... _Types>
   static void testAnswer(_Ans && ans, _Types &&... args) {
-    _Ans && _ans = s.isPalindrome(const_cast<_Types &>(args)...);
+    _Ans && _ans = s.maxArea(const_cast<_Types &>(args)...);
 
     ++Q;
     if (!compareAnswer(ans, _ans)) {

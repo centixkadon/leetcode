@@ -17,14 +17,16 @@ public:
     }
     return ans;
   }
-} s;
+};
+
+Solution s;
 
 class TestCase {
 public:
   TestCase() {
     cout << "P0007: Reverse Integer." << endl;
 
-    auto && f = TestCase::testAnswer<int, int>;
+    auto && f = testAnswer<int, int>;
     f(0, 0);
     f(1, 1);
     f(-1, -1);

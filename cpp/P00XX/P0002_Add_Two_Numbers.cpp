@@ -29,7 +29,9 @@ public:
     }
     return h;
   }
-} s;
+};
+
+Solution s;
 
 template <typename _Elem, typename _Traits>
 basic_ostream<_Elem, _Traits> & operator<<(basic_ostream<_Elem, _Traits> & _Ostr, ListNode const * _Right) {

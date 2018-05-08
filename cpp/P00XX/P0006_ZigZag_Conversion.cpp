@@ -23,7 +23,9 @@ public:
       for (auto c : s) ans.push_back(c);
     return string(ans.begin(), ans.end());
   }
-} s;
+};
+
+Solution s;
 
 class TestCase {
 public:

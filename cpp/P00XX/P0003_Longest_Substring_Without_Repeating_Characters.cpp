@@ -4,10 +4,10 @@
 class Solution {
 public:
   int lengthOfLongestSubstring(string s) {
-    bool m[256];
+    vector<bool> m(256);
     for (int c = 0; c < 256; ++c) m[c] = true;
 
-    int ans = 0;
+    size_t ans = 0;
     size_t j = 0;
     for (size_t i = 0; i < s.size(); ++i) {
       char c = s[i];
@@ -22,9 +22,11 @@ public:
       }
       if (i - j + 1 > ans) ans = i - j + 1;
     }
-    return ans;
+    return static_cast<int>(ans);
   }
-} s;
+};
+
+Solution s;
 
 class TestCase {
 public:
