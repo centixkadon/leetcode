@@ -1,12 +1,6 @@
 
 #include "leetcode.hpp"
 
-struct ListNode {
-  int val;
-  ListNode * next;
-  ListNode(int x) : val(x), next(NULL) {}
-};
-
 class Solution {
 public:
   ListNode * addTwoNumbers(ListNode * l1, ListNode * l2) {
@@ -32,15 +26,6 @@ public:
 };
 
 Solution s;
-
-template <typename _Elem, typename _Traits>
-basic_ostream<_Elem, _Traits> & operator<<(basic_ostream<_Elem, _Traits> & _Ostr, ListNode const * _Right) {
-  while (_Right != NULL) {
-    _Ostr << _Right->val;
-    _Right = _Right->next;
-  }
-  return _Ostr;
-}
 
 class TestCase {
 public:

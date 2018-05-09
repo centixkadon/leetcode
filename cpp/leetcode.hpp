@@ -54,3 +54,33 @@ template <typename _Elem, typename _Traits, typename _Ty, typename... _Types>
 basic_ostream<_Elem, _Traits> & printParameterPacks(basic_ostream<_Elem, _Traits> & _Ostr, _Ty && _Arg, _Types &&... _Args) { return printParameterPacks(_Ostr << _Arg << ", ", _Args...); }
 
 size_t X = 0, Q = 0;
+
+struct ListNode {
+  int val;
+  ListNode * next;
+  ListNode(int x) : val(x), next(NULL) {}
+};
+
+namespace std {
+
+ListNode * vtol(vector<int> const & v) {
+  ListNode * h = NULL;
+  auto p = &h;
+  for (auto elem : v) {
+    *p = new ListNode(elem);
+    p = &(*p)->next;
+  }
+  return h;
+}
+
+template <typename _Elem, typename _Traits>
+basic_ostream<_Elem, _Traits> & operator<<(basic_ostream<_Elem, _Traits> & _Ostr, ListNode const * _Right) {
+  _Ostr << "[ ";
+  while (_Right != NULL) {
+    _Ostr << " -> " << _Right->val;
+    _Right = _Right->next;
+  }
+  return _Ostr << " ]";
+}
+
+} // namespace std

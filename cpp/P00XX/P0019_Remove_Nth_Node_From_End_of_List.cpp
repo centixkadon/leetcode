@@ -1,12 +1,6 @@
 
 #include "leetcode.hpp"
 
-struct ListNode {
-  int val;
-  ListNode * next;
-  ListNode(int x) : val(x), next(NULL) {}
-};
-
 class Solution {
 public:
   ListNode * removeNthFromEnd(ListNode * head, int n) {
@@ -26,16 +20,6 @@ public:
 
 Solution s;
 
-template <typename _Elem, typename _Traits>
-basic_ostream<_Elem, _Traits> & operator<<(basic_ostream<_Elem, _Traits> & _Ostr, ListNode const * _Right) {
-  _Ostr << "[ ";
-  while (_Right != NULL) {
-    _Ostr << " -> " << _Right->val;
-    _Right = _Right->next;
-  }
-  return _Ostr << " ]";
-}
-
 class TestCase {
 public:
   TestCase() {
@@ -43,9 +27,9 @@ public:
 
     auto && f = testAnswer<ListNode *, ListNode *, int>;
     f(vtol({}), vtol({ 1 }), 1);
-    f(vtol({ 4, 3, 2, 1 }), vtol({ 5, 4, 3, 2, 1 }), 1);
-    f(vtol({ 5, 4, 3, 2 }), vtol({ 5, 4, 3, 2, 1 }), 5);
-    f(vtol({ 5, 3, 2, 1 }), vtol({ 5, 4, 3, 2, 1 }), 2);
+    f(vtol({ 1, 2, 3, 4 }), vtol({ 1, 2, 3, 4, 5 }), 1);
+    f(vtol({ 2, 3, 4, 5 }), vtol({ 1, 2, 3, 4, 5 }), 5);
+    f(vtol({ 1, 2, 3, 5 }), vtol({ 1, 2, 3, 4, 5 }), 2);
 
     cout << "Point: " << (Q - X) << "/" << Q << endl;
   }
@@ -72,16 +56,6 @@ private:
       cout << Q << " X: " << _ans << endl;
       ++X;
     }
-  }
-
-  static ListNode * vtol(vector<int> const & v) {
-    ListNode * h = NULL;
-    for (auto elem : v) {
-      auto p = h;
-      h = new ListNode(elem);
-      h->next = p;
-    }
-    return h;
   }
 };
 
