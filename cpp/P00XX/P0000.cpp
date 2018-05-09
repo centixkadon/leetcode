@@ -6,14 +6,15 @@ public:
   int test(int a) { return a; }
 };
 
-Solution s;
+Solution _solution;
+static auto const _func = &Solution::test;
 
 class TestCase {
 public:
-  TestCase() {
+  explicit TestCase() {
     cout << "P0000: Template." << endl;
 
-    auto && f = testAnswer<int, int>;
+    auto const f = testAnswer<int, int>;
     f(1, 1);
     f(2, 2);
     f(4, 3);
@@ -28,7 +29,7 @@ private:
 
   template <typename _Ans, typename... _Types>
   static void testAnswer(_Ans && ans, _Types &&... args) {
-    _Ans && _ans = s.test(const_cast<_Types &>(args)...);
+    _Ans && _ans = (_solution.*_func)(const_cast<_Types &>(args)...);
 
     ++Q;
     if (!compareAnswer(ans, _ans)) {
