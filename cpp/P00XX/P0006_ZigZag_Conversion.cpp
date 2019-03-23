@@ -25,41 +25,14 @@ public:
   }
 };
 
-Solution s;
-
-class TestCase {
-public:
-  TestCase() {
-    cout << "P0006: ZigZag Conversion." << endl;
-
-    auto && f = testAnswer<string, string, int>;
-    f("ABC", "ABC", 1);
-    f("PAHNAPLSIIGYIR", "PAYPALISHIRING", 3);
-    f("PINALSIGYAHRPI", "PAYPALISHIRING", 4);
-
-    cout << "Point: " << (Q - X) << "/" << Q << endl;
-  }
-
-private:
-  template <typename _Ty>
-  static bool compareAnswer(_Ty const & l, _Ty const & r) { return l == r; }
-
-  template <typename _Ans, typename... _Types>
-  static void testAnswer(_Ans && ans, _Types &&... args) {
-    _Ans && _ans = s.convert(const_cast<_Types &>(args)...);
-
-    ++Q;
-    if (!compareAnswer(ans, _ans)) {
-      printParameterPacks(cout << Q << " Q: ", args...) << endl;
-      cout << Q << " O: " << ans << endl;
-      cout << Q << " X: " << _ans << endl;
-      ++X;
-    }
-  }
-};
-
 int main() {
-  TestCase();
-
+  {
+    auto check = solve(&Solution::convert);
+    check("ABC", "ABC", 1);
+    check("PAHNAPLSIIGYIR", "PAYPALISHIRING", 3);
+    check("PINALSIGYAHRPI", "PAYPALISHIRING", 4);
+  }
   return 0;
 }
+
+Settings;

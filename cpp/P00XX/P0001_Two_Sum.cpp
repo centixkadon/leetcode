@@ -14,41 +14,14 @@ public:
   }
 };
 
-Solution s;
-
-class TestCase {
-public:
-  TestCase() {
-    cout << "P0001: Two Sum." << endl;
-
-    auto && f = testAnswer<vector<int>, vector<int>, int>;
-    f({ 0, 1 }, { 2, 7, 11, 15 }, 9);
-    f({ 1, 3 }, { 2, 7, 11, 15 }, 22);
-    f({ 1, 2 }, { 3, 2, 4 }, 6);
-
-    cout << "Point: " << (Q - X) << "/" << Q << endl;
-  }
-
-private:
-  template <typename _Ty>
-  static bool compareAnswer(_Ty const & l, _Ty const & r) { return l == r; }
-
-  template <typename _Ans, typename... _Types>
-  static void testAnswer(_Ans && ans, _Types &&... args) {
-    _Ans && _ans = s.twoSum(const_cast<_Types &>(args)...);
-
-    ++Q;
-    if (!compareAnswer(ans, _ans)) {
-      printParameterPacks(cout << Q << " Q: ", args...) << endl;
-      cout << Q << " O: " << ans << endl;
-      cout << Q << " X: " << _ans << endl;
-      ++X;
-    }
-  }
-};
-
 int main() {
-  TestCase();
-
+  {
+    auto check = solve(&Solution::twoSum);
+    check({ 0, 1 }, { 2, 7, 11, 15 }, 9);
+    check({ 1, 3 }, { 2, 7, 11, 15 }, 22);
+    check({ 1, 2 }, { 3, 2, 4 }, 6);
+  }
   return 0;
 }
+
+Settings;

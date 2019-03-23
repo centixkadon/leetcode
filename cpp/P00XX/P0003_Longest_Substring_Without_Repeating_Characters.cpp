@@ -26,43 +26,16 @@ public:
   }
 };
 
-Solution s;
-
-class TestCase {
-public:
-  TestCase() {
-    cout << "P0003: Longest Substring Without Repeating Characters." << endl;
-
-    auto && f = testAnswer<int, string>;
-    f(3, "abcabcbb");
-    f(1, "bbbbb");
-    f(3, "pwwkew");
-    f(1, "a");
-    f(0, "");
-
-    cout << "Point: " << (Q - X) << "/" << Q << endl;
-  }
-
-private:
-  template <typename _Ty>
-  static bool compareAnswer(_Ty const & l, _Ty const & r) { return l == r; }
-
-  template <typename _Ans, typename... _Types>
-  static void testAnswer(_Ans && ans, _Types &&... args) {
-    _Ans && _ans = s.lengthOfLongestSubstring(const_cast<_Types &>(args)...);
-
-    ++Q;
-    if (!compareAnswer(ans, _ans)) {
-      printParameterPacks(cout << Q << " Q: ", args...) << endl;
-      cout << Q << " O: " << ans << endl;
-      cout << Q << " X: " << _ans << endl;
-      ++X;
-    }
-  }
-};
-
 int main() {
-  TestCase();
-
+  {
+    auto check = solve(&Solution::lengthOfLongestSubstring);
+    check(3, "abcabcbb");
+    check(1, "bbbbb");
+    check(3, "pwwkew");
+    check(1, "a");
+    check(0, "");
+  }
   return 0;
 }
+
+Settings;

@@ -19,49 +19,22 @@ public:
   }
 };
 
-Solution s;
-
-class TestCase {
-public:
-  TestCase() {
-    cout << "P0007: Reverse Integer." << endl;
-
-    auto && f = testAnswer<int, int>;
-    f(0, 0);
-    f(1, 1);
-    f(-1, -1);
-    f(-1, -10);
-    f(321, 123);
-    f(-321, -123);
-    f(21, 120);
-    f(0, 1534236469);
-    f(0, 2147483647);
-    f(2147483641, 1463847412);
-    f(0, 1563847412);
-
-    cout << "Point: " << (Q - X) << "/" << Q << endl;
-  }
-
-private:
-  template <typename _Ty>
-  static bool compareAnswer(_Ty const & l, _Ty const & r) { return l == r; }
-
-  template <typename _Ans, typename... _Types>
-  static void testAnswer(_Ans && ans, _Types &&... args) {
-    _Ans && _ans = s.reverse(const_cast<_Types &>(args)...);
-
-    ++Q;
-    if (!compareAnswer(ans, _ans)) {
-      printParameterPacks(cout << Q << " Q: ", args...) << endl;
-      cout << Q << " O: " << ans << endl;
-      cout << Q << " X: " << _ans << endl;
-      ++X;
-    }
-  }
-};
-
 int main() {
-  TestCase();
-
+  {
+    auto check = solve(&Solution::reverse);
+    check(0, 0);
+    check(1, 1);
+    check(-1, -1);
+    check(-1, -10);
+    check(321, 123);
+    check(-321, -123);
+    check(21, 120);
+    check(0, 1534236469);
+    check(0, 2147483647);
+    check(2147483641, 1463847412);
+    check(0, 1563847412);
+  }
   return 0;
 }
+
+Settings;

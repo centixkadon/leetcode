@@ -45,49 +45,22 @@ public:
   }
 };
 
-Solution s;
-
-class TestCase {
-public:
-  TestCase() {
-    cout << "P0004: Median of Two Sorted Arrays." << endl;
-
-    auto && f = testAnswer<double, vector<int>, vector<int>>;
-    f(0.0, {}, {});
-    f(1.0, { 1 }, {});
-    f(1.0, {}, { 1 });
-    f(2.5, {}, { 2, 3 });
-    f(2.0, { 1, 3 }, { 2 });
-    f(2.5, { 1, 2 }, { 3, 4 });
-    f(2.5, { 1, 3 }, { 2, 4 });
-    f(2.5, { 1, 4 }, { 2, 3 });
-    f(2.5, { 2, 3 }, { 1, 4 });
-    f(2.5, { 2, 4 }, { 1, 3 });
-    f(2.5, { 3, 4 }, { 1, 2 });
-
-    cout << "Point: " << (Q - X) << "/" << Q << endl;
-  }
-
-private:
-  template <typename _Ty>
-  static bool compareAnswer(_Ty const & l, _Ty const & r) { return l == r; }
-
-  template <typename _Ans, typename... _Types>
-  static void testAnswer(_Ans && ans, _Types &&... args) {
-    _Ans && _ans = s.findMedianSortedArrays(const_cast<_Types &>(args)...);
-
-    ++Q;
-    if (!compareAnswer(ans, _ans)) {
-      printParameterPacks(cout << Q << " Q: ", args...) << endl;
-      cout << Q << " O: " << ans << endl;
-      cout << Q << " X: " << _ans << endl;
-      ++X;
-    }
-  }
-};
-
 int main() {
-  TestCase();
-
+  {
+    auto check = solve(&Solution::findMedianSortedArrays);
+    check(0.0, {}, {});
+    check(1.0, { 1 }, {});
+    check(1.0, {}, { 1 });
+    check(2.5, {}, { 2, 3 });
+    check(2.0, { 1, 3 }, { 2 });
+    check(2.5, { 1, 2 }, { 3, 4 });
+    check(2.5, { 1, 3 }, { 2, 4 });
+    check(2.5, { 1, 4 }, { 2, 3 });
+    check(2.5, { 2, 3 }, { 1, 4 });
+    check(2.5, { 2, 4 }, { 1, 3 });
+    check(2.5, { 3, 4 }, { 1, 2 });
+  }
   return 0;
 }
+
+Settings;

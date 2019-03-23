@@ -47,55 +47,28 @@ public:
   }
 };
 
-Solution s;
-
-class TestCase {
-public:
-  TestCase() {
-    cout << "P0008: String to Integer (atoi)." << endl;
-
-    auto && f = testAnswer<int, string>;
-    f(0, "words and 987");
-    f(0, "");
-    f(0, "-");
-    f(0, "-0");
-    f(0, "-00");
-    f(-1, "-001");
-    f(-1, "-001-1111");
-    f(-9, "-9");
-    f(0, "+-2");
-    f(9, "9");
-    f(42, "42");
-    f(-42, "   -42");
-    f(4193, "4193 with words");
-    f(-2147483648, "-2147483649");
-    f(2147483647, "2147483648");
-    f(-2147483648, "-91283472332");
-    f(2147483647, "91283472332");
-
-    cout << "Point: " << (Q - X) << "/" << Q << endl;
-  }
-
-private:
-  template <typename _Ty>
-  static bool compareAnswer(_Ty const & l, _Ty const & r) { return l == r; }
-
-  template <typename _Ans, typename... _Types>
-  static void testAnswer(_Ans && ans, _Types &&... args) {
-    _Ans && _ans = s.myAtoi(const_cast<_Types &>(args)...);
-
-    ++Q;
-    if (!compareAnswer(ans, _ans)) {
-      printParameterPacks(cout << Q << " Q: ", args...) << endl;
-      cout << Q << " O: " << ans << endl;
-      cout << Q << " X: " << _ans << endl;
-      ++X;
-    }
-  }
-};
-
 int main() {
-  TestCase();
-
+  {
+    auto check = solve(&Solution::myAtoi);
+    check(0, "words and 987");
+    check(0, "");
+    check(0, "-");
+    check(0, "-0");
+    check(0, "-00");
+    check(-1, "-001");
+    check(-1, "-001-1111");
+    check(-9, "-9");
+    check(0, "+-2");
+    check(9, "9");
+    check(42, "42");
+    check(-42, "   -42");
+    check(4193, "4193 with words");
+    check(-2147483648, "-2147483649");
+    check(2147483647, "2147483648");
+    check(-2147483648, "-91283472332");
+    check(2147483647, "91283472332");
+  }
   return 0;
 }
+
+Settings;

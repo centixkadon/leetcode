@@ -29,54 +29,22 @@ public:
       }
     }
 
-    return ans;
-  }
-};
-
-Solution s;
-
-class TestCase {
-public:
-  TestCase() {
-    cout << "P0015: 3Sum." << endl;
-
-    auto && f = testAnswer<vector<vector<int>>, vector<int>>;
-    f({}, {});
-    f({}, { 0 });
-    f({}, { 0, 0 });
-    f({}, { 0, 0, 1 });
-    f({ { 0, 0, 0 } }, { 0, 0, 0 });
-    f({ { -1, -1, 2 } }, { -1, -1, -1, 2 });
-    f({ { -1, 0, 1 }, { -1, -1, 2 } }, { -1, 0, 1, 2, -1, -4 });
-
-    cout << "Point: " << (Q - X) << "/" << Q << endl;
-  }
-
-private:
-  // template <typename _Ty>
-  // static bool compareAnswer(_Ty const & l, _Ty const & r) { return l == r; }
-  static bool compareAnswer(vector<vector<int>> & l, vector<vector<int>> & r) {
-    sort(l.begin(), l.end());
-    sort(r.begin(), r.end());
-    return l == r;
-  }
-
-  template <typename _Ans, typename... _Types>
-  static void testAnswer(_Ans && ans, _Types &&... args) {
-    _Ans && _ans = s.threeSum(const_cast<_Types &>(args)...);
-
-    ++Q;
-    if (!compareAnswer(ans, _ans)) {
-      printParameterPacks(cout << Q << " Q: ", args...) << endl;
-      cout << Q << " O: " << ans << endl;
-      cout << Q << " X: " << _ans << endl;
-      ++X;
-    }
+    return move(ans);
   }
 };
 
 int main() {
-  TestCase();
-
+  {
+    auto check = solve_unordered(&Solution::threeSum);
+    check({}, {});
+    check({}, { 0 });
+    check({}, { 0, 0 });
+    check({}, { 0, 0, 1 });
+    check({ { 0, 0, 0 } }, { 0, 0, 0 });
+    check({ { -1, -1, 2 } }, { -1, -1, -1, 2 });
+    check({ { -1, 0, 1 }, { -1, -1, 2 } }, { -1, 0, 1, 2, -1, -4 });
+  }
   return 0;
 }
+
+Settings;

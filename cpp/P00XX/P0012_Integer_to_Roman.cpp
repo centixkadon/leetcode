@@ -20,43 +20,16 @@ public:
   }
 };
 
-Solution s;
-
-class TestCase {
-public:
-  TestCase() {
-    cout << "P0012: Integer to Roman." << endl;
-
-    auto && f = testAnswer<string, int>;
-    f("III", 3);
-    f("IV", 4);
-    f("IX", 9);
-    f("LVIII", 58);
-    f("MCMXCIV", 1994);
-
-    cout << "Point: " << (Q - X) << "/" << Q << endl;
-  }
-
-private:
-  template <typename _Ty>
-  static bool compareAnswer(_Ty const & l, _Ty const & r) { return l == r; }
-
-  template <typename _Ans, typename... _Types>
-  static void testAnswer(_Ans && ans, _Types &&... args) {
-    _Ans && _ans = s.intToRoman(const_cast<_Types &>(args)...);
-
-    ++Q;
-    if (!compareAnswer(ans, _ans)) {
-      printParameterPacks(cout << Q << " Q: ", args...) << endl;
-      cout << Q << " O: " << ans << endl;
-      cout << Q << " X: " << _ans << endl;
-      ++X;
-    }
-  }
-};
-
 int main() {
-  TestCase();
-
+  {
+    auto check = solve(&Solution::intToRoman);
+    check("III", 3);
+    check("IV", 4);
+    check("IX", 9);
+    check("LVIII", 58);
+    check("MCMXCIV", 1994);
+  }
   return 0;
 }
+
+Settings;

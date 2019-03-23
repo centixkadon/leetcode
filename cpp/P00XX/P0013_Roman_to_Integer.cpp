@@ -32,39 +32,12 @@ public:
   }
 };
 
-Solution s;
-
-class TestCase {
-public:
-  TestCase() {
-    cout << "P0013: Roman to Integer." << endl;
-
-    auto && f = testAnswer<int, string>;
-    for (int i = 0; i < 4000; ++i) f(static_cast<int const>(i), s.intToRoman(i));
-
-    cout << "Point: " << (Q - X) << "/" << Q << endl;
-  }
-
-private:
-  template <typename _Ty>
-  static bool compareAnswer(_Ty const & l, _Ty const & r) { return l == r; }
-
-  template <typename _Ans, typename... _Types>
-  static void testAnswer(_Ans && ans, _Types &&... args) {
-    _Ans && _ans = s.romanToInt(const_cast<_Types &>(args)...);
-
-    ++Q;
-    if (!compareAnswer(ans, _ans)) {
-      printParameterPacks(cout << Q << " Q: ", args...) << endl;
-      cout << Q << " O: " << ans << endl;
-      cout << Q << " X: " << _ans << endl;
-      ++X;
-    }
-  }
-};
-
 int main() {
-  TestCase();
-
+  {
+    auto check = solve(&Solution::romanToInt);
+    for (int i = 0; i < 4000; ++i) check(static_cast<int const>(i), Solution().intToRoman(i));
+  }
   return 0;
 }
+
+Settings;

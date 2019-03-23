@@ -26,46 +26,19 @@ private:
   }
 };
 
-Solution s;
-
-class TestCase {
-public:
-  TestCase() {
-    cout << "P0010: Regular Expression Matching." << endl;
-
-    auto && f = testAnswer<bool, string, string>;
-    f(false, "a", "aa");
-    f(false, "aa", "a");
-    f(true, "aa", "a*");
-    f(true, "ab", ".*");
-    f(true, "aab", "c*a*b");
-    f(false, "mississippi", "mis*is*p*.");
-    f(true, "mississippi", "mis*is*ip*.");
-    f(false, "", ".....");
-
-    cout << "Point: " << (Q - X) << "/" << Q << endl;
-  }
-
-private:
-  template <typename _Ty>
-  static bool compareAnswer(_Ty const & l, _Ty const & r) { return l == r; }
-
-  template <typename _Ans, typename... _Types>
-  static void testAnswer(_Ans && ans, _Types &&... args) {
-    _Ans && _ans = s.isMatch(const_cast<_Types &>(args)...);
-
-    ++Q;
-    if (!compareAnswer(ans, _ans)) {
-      printParameterPacks(cout << Q << " Q: ", args...) << endl;
-      cout << Q << " O: " << ans << endl;
-      cout << Q << " X: " << _ans << endl;
-      ++X;
-    }
-  }
-};
-
 int main() {
-  TestCase();
-
+  {
+    auto check = solve(&Solution::isMatch);
+    check(false, "a", "aa");
+    check(false, "aa", "a");
+    check(true, "aa", "a*");
+    check(true, "ab", ".*");
+    check(true, "aab", "c*a*b");
+    check(false, "mississippi", "mis*is*p*.");
+    check(true, "mississippi", "mis*is*ip*.");
+    check(false, "", ".....");
+  }
   return 0;
 }
+
+Settings;

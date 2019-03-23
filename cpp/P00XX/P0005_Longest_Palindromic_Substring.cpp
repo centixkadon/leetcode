@@ -22,43 +22,16 @@ public:
   }
 };
 
-Solution s;
-
-class TestCase {
-public:
-  TestCase() {
-    cout << "P0005: Longest Palindromic Substring." << endl;
-
-    auto && f = testAnswer<string, string>;
-    f("", "");
-    f("a", "a");
-    f("a", "abcd");
-    f("bab", "babad");
-    f("bb", "cbbd");
-
-    cout << "Point: " << (Q - X) << "/" << Q << endl;
-  }
-
-private:
-  template <typename _Ty>
-  static bool compareAnswer(_Ty const & l, _Ty const & r) { return l == r; }
-
-  template <typename _Ans, typename... _Types>
-  static void testAnswer(_Ans && ans, _Types &&... args) {
-    _Ans && _ans = s.longestPalindrome(const_cast<_Types &>(args)...);
-
-    ++Q;
-    if (!compareAnswer(ans, _ans)) {
-      printParameterPacks(cout << Q << " Q: ", args...) << endl;
-      cout << Q << " O: " << ans << endl;
-      cout << Q << " X: " << _ans << endl;
-      ++X;
-    }
-  }
-};
-
 int main() {
-  TestCase();
-
+  {
+    auto check = solve(&Solution::longestPalindrome);
+    check("", "");
+    check("a", "a");
+    check("a", "abcd");
+    check("bab", "babad");
+    check("bb", "cbbd");
+  }
   return 0;
 }
+
+Settings;

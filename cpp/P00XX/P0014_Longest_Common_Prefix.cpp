@@ -33,43 +33,16 @@ public:
   }
 };
 
-Solution s;
-
-class TestCase {
-public:
-  TestCase() {
-    cout << "P0014: Longest Common Prefix." << endl;
-
-    auto && f = testAnswer<string, vector<string>>;
-    f("", {});
-    f("", { "", "" });
-    f("a", { "a" });
-    f("fl", { "flower", "flow", "flight" });
-    f("", { "dog", "racecar", "car" });
-
-    cout << "Point: " << (Q - X) << "/" << Q << endl;
-  }
-
-private:
-  template <typename _Ty>
-  static bool compareAnswer(_Ty const & l, _Ty const & r) { return l == r; }
-
-  template <typename _Ans, typename... _Types>
-  static void testAnswer(_Ans && ans, _Types &&... args) {
-    _Ans && _ans = s.longestCommonPrefix(const_cast<_Types &>(args)...);
-
-    ++Q;
-    if (!compareAnswer(ans, _ans)) {
-      printParameterPacks(cout << Q << " Q: ", args...) << endl;
-      cout << Q << " O: " << ans << endl;
-      cout << Q << " X: " << _ans << endl;
-      ++X;
-    }
-  }
-};
-
 int main() {
-  TestCase();
-
+  {
+    auto check = solve(&Solution::longestCommonPrefix);
+    check("", {});
+    check("", { "", "" });
+    check("a", { "a" });
+    check("fl", { "flower", "flow", "flight" });
+    check("", { "dog", "racecar", "car" });
+  }
   return 0;
 }
+
+Settings;
