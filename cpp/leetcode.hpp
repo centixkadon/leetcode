@@ -131,7 +131,7 @@ template <bool _Sort, typename _Solution, typename _Ty, typename... _Types>
 class Checker {
 public:
   explicit Checker(_Ty (_Solution::*_Func)(_Types...)) : f(_Func), X(0), Q(0) {
-    cout << title << endl;
+    cout << boolalpha << title << endl;
   }
   virtual ~Checker() {
     cout << "Point: " << (Q - X) << " / " << Q << endl;
@@ -198,6 +198,14 @@ Checker<false, _Ty, _Ret, _Types...> solve(_Ret (_Ty::*_Func)(_Types...)) {
 template <typename _Ty, typename _Ret, typename... _Types>
 Checker<true, _Ty, _Ret, _Types...> solve_unordered(_Ret (_Ty::*_Func)(_Types...)) {
   return Checker<true, _Ty, _Ret, _Types...>(_Func);
+}
+
+
+template <>
+struct clone_from<vector<char>> { using type = string; };
+template <>
+vector<char> & construct(vector<char> & _Left, clone_from_t<vector<char>> const & _Arg) {
+  return _Left = move(vector<char>(_Arg.begin(), _Arg.end()));
 }
 
 

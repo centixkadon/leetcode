@@ -23,7 +23,7 @@ class Solution {
       _Val *= _FNV_prime;
     }
     size_t _Val, _Hash;
-    static size_t const _Bits_prime = 16777ULL;
+    static size_t const _Bits_prime = 2039ULL;
     bitset<_Bits_prime> _Bits;
     static size_t const _FNV_offset_basis = 14695981039346656037ULL;
     static size_t const _FNV_prime = 1099511628211ULL;
