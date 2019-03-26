@@ -209,6 +209,13 @@ vector<char> & construct(vector<char> & _Left, clone_from_t<vector<char>> const 
 }
 
 
+template <>
+constexpr bool compare(double const & _Left, double const & _Right) {
+  if (_Left == _Right) return true;
+  return abs(_Left - _Right) / (abs(_Left) + abs(_Right)) < 0.000001;
+}
+
+
 template <typename _Ty>
 struct ListNode_ {
   _Ty val;
