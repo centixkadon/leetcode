@@ -88,30 +88,59 @@ constexpr _Ty forward_to(decay_t<_Ty> && _Arg) { return forward_to<_Ty>(forward<
 
 
 template <typename _Ty>
-constexpr bool compare(_Ty const & _Left, _Ty const & _Right) { return _Left == _Right; }
-
-
-template <typename _Elem, typename _Traits>
-constexpr basic_ostream<_Elem, _Traits> & print(basic_ostream<_Elem, _Traits> & _Ostr) { return _Ostr; }
-template <typename _Elem, typename _Traits, typename _Ty>
-constexpr basic_ostream<_Elem, _Traits> & print(basic_ostream<_Elem, _Traits> & _Ostr, _Ty const & _Arg);
-template <typename _Elem, typename _Traits, typename _Ty>
-constexpr basic_ostream<_Elem, _Traits> & print(basic_ostream<_Elem, _Traits> & _Ostr, _Ty const & _Arg, false_type) {
-  return _Ostr << _Arg;
+constexpr bool compare(_Ty const & _Left, _Ty const & _Right);
+template <typename _Ty>
+constexpr bool compare(_Ty const & _Left, _Ty const & _Right, false_type) { return _Left == _Right; }
+template <typename _Ty>
+constexpr bool compare(_Ty const & _Left, _Ty const & _Right, true_type) {
+  if (_Left.size() != _Right.size()) return false;
+  auto itRight = _Right.begin();
+  for (auto it = _Left.begin(); it != _Left.end(); ++it, ++itRight)
+    if (!compare(*it, *itRight)) return false;
+  return true;
 }
+template <typename _Ty>
+constexpr bool compare(_Ty const & _Left, _Ty const & _Right) { return compare(_Left, _Right, typename is_container<_Ty>::type()); }
+
+
 template <typename _Elem, typename _Traits, typename _Ty>
-constexpr basic_ostream<_Elem, _Traits> & print(basic_ostream<_Elem, _Traits> & _Ostr, _Ty const & _Arg, true_type) {
+constexpr basic_ostream<_Elem, _Traits> & write(basic_ostream<_Elem, _Traits> & _Ostr, _Ty const & _Arg);
+template <typename _Elem, typename _Traits, typename _Ty>
+constexpr basic_ostream<_Elem, _Traits> & write(basic_ostream<_Elem, _Traits> & _Ostr, _Ty const & _Arg, false_type) { return _Ostr << _Arg; }
+template <typename _Elem, typename _Traits, typename _Ty>
+constexpr basic_ostream<_Elem, _Traits> & write(basic_ostream<_Elem, _Traits> & _Ostr, _Ty const & _Arg, true_type) {
   _Ostr << "[";
-  for (auto const & _Val : _Arg) { print(_Ostr << " ", _Val); }
+  for (auto const & _Val : _Arg) { write(_Ostr << " ", _Val); }
   return _Ostr << " ]";
 }
 template <typename _Elem, typename _Traits, typename _Ty>
-constexpr basic_ostream<_Elem, _Traits> & print(basic_ostream<_Elem, _Traits> & _Ostr, _Ty const & _Arg) {
-  return print(_Ostr, _Arg, typename is_container<_Ty>::type());
-}
+constexpr basic_ostream<_Elem, _Traits> & write(basic_ostream<_Elem, _Traits> & _Ostr, _Ty const & _Arg) { return write(_Ostr, _Arg, typename is_container<_Ty>::type()); }
+
+template <typename _Elem, typename _Traits>
+constexpr basic_ostream<_Elem, _Traits> & write(basic_ostream<_Elem, _Traits> & _Ostr) { return _Ostr; }
 template <typename _Elem, typename _Traits, typename _Ty, typename... _Types>
-constexpr basic_ostream<_Elem, _Traits> & print(basic_ostream<_Elem, _Traits> & _Ostr, _Ty const & _Arg, _Types const &... _Args) {
-  return print(print(_Ostr, _Arg) << ", ", _Args...);
+constexpr basic_ostream<_Elem, _Traits> & write(basic_ostream<_Elem, _Traits> & _Ostr, _Ty const & _Arg, _Types const &... _Args) {
+  return write(write(_Ostr, _Arg) << ", ", _Args...);
+}
+
+
+template <typename _Elem, typename _Traits, typename _Ty>
+constexpr basic_istream<_Elem, _Traits> & read(basic_istream<_Elem, _Traits> & _Ostr, _Ty & _Arg);
+template <typename _Elem, typename _Traits, typename _Ty>
+constexpr basic_istream<_Elem, _Traits> & read(basic_istream<_Elem, _Traits> & _Ostr, _Ty & _Arg, false_type) { return _Ostr >> _Arg; }
+template <typename _Elem, typename _Traits, typename _Ty>
+constexpr basic_istream<_Elem, _Traits> & read(basic_istream<_Elem, _Traits> & _Ostr, _Ty & _Arg, true_type) {
+  for (auto & _Val : _Arg) { read(_Ostr, _Val); }
+  return _Ostr;
+}
+template <typename _Elem, typename _Traits, typename _Ty>
+constexpr basic_istream<_Elem, _Traits> & read(basic_istream<_Elem, _Traits> & _Ostr, _Ty & _Arg) { return read(_Ostr, _Arg, typename is_container<_Ty>::type()); }
+
+template <typename _Elem, typename _Traits>
+constexpr basic_istream<_Elem, _Traits> & read(basic_istream<_Elem, _Traits> & _Ostr) { return _Ostr; }
+template <typename _Elem, typename _Traits, typename _Ty, typename... _Types>
+constexpr basic_istream<_Elem, _Traits> & read(basic_istream<_Elem, _Traits> & _Ostr, _Ty & _Arg, _Types &... _Args) {
+  return read(read(_Ostr, _Arg), _Args...);
 }
 
 
@@ -130,12 +159,8 @@ struct Sorter<true> {
 template <bool _Sort, typename _Solution, typename _Ty, typename... _Types>
 class Checker {
 public:
-  explicit Checker(_Ty (_Solution::*_Func)(_Types...)) : f(_Func), X(0), Q(0) {
-    cout << boolalpha << title << endl;
-  }
-  virtual ~Checker() {
-    cout << "Point: " << (Q - X) << " / " << Q << endl;
-  }
+  explicit Checker(_Ty (_Solution::*_Func)(_Types...)) : f(_Func), X(0), Q(0) { cout << boolalpha << title << endl; }
+  virtual ~Checker() { cout << "Point: " << (Q - X) << " / " << Q << endl; }
 
   void operator()(clone_from_t<_Ty> && _Ans, clone_from_t<_Types> &&... _Args) {
     _Solution t;
@@ -148,9 +173,9 @@ public:
 
     ++Q;
     if (!compare(ans, _ans)) {
-      print(cout << Q << " Q: ", clone<_Types>(_Args)...) << endl;
-      print(cout << Q << " O: ", _ans) << endl;
-      print(cout << Q << " X: ", ans) << endl;
+      write(cout << Q << " Q: ", clone<_Types>(_Args)...) << endl;
+      write(cout << Q << " O: ", _ans) << endl;
+      write(cout << Q << " X: ", ans) << endl;
       ++X;
     }
   }
@@ -164,13 +189,8 @@ private:
 template <bool _Sort, typename _Solution>
 class Checker<_Sort, _Solution, void> {
 public:
-  explicit Checker(void (_Solution::*_Func)()) : f(_Func), X(0), Q(0) {
-    cout << title << endl;
-  }
-
-  virtual ~Checker() {
-    cout << "Point: " << (Q - X) << " / " << Q << endl;
-  }
+  explicit Checker(void (_Solution::*_Func)()) : f(_Func), X(0), Q(0) { cout << boolalpha << title << endl; }
+  virtual ~Checker() { cout << "Point: " << (Q - X) << " / " << Q << endl; }
 
   void operator()() {
     _Solution t;
@@ -192,28 +212,19 @@ private:
   string const Checker<_Sort, _Solution, void>::title = __FILE__;
 
 template <typename _Ty, typename _Ret, typename... _Types>
-Checker<false, _Ty, _Ret, _Types...> solve(_Ret (_Ty::*_Func)(_Types...)) {
-  return Checker<false, _Ty, _Ret, _Types...>(_Func);
-}
+Checker<false, _Ty, _Ret, _Types...> solve(_Ret (_Ty::*_Func)(_Types...)) { return Checker<false, _Ty, _Ret, _Types...>(_Func); }
 template <typename _Ty, typename _Ret, typename... _Types>
-Checker<true, _Ty, _Ret, _Types...> solve_unordered(_Ret (_Ty::*_Func)(_Types...)) {
-  return Checker<true, _Ty, _Ret, _Types...>(_Func);
-}
+Checker<true, _Ty, _Ret, _Types...> solve_unordered(_Ret (_Ty::*_Func)(_Types...)) { return Checker<true, _Ty, _Ret, _Types...>(_Func); }
 
 
 template <>
 struct clone_from<vector<char>> { using type = string; };
 template <>
-vector<char> & construct(vector<char> & _Left, clone_from_t<vector<char>> const & _Arg) {
-  return _Left = move(vector<char>(_Arg.begin(), _Arg.end()));
-}
+vector<char> & construct(vector<char> & _Left, clone_from_t<vector<char>> const & _Arg) { return _Left = move(vector<char>(_Arg.begin(), _Arg.end())); }
 
 
 template <>
-constexpr bool compare(double const & _Left, double const & _Right) {
-  if (_Left == _Right) return true;
-  return abs(_Left - _Right) / (abs(_Left) + abs(_Right)) < 0.000001;
-}
+constexpr bool compare(double const & _Left, double const & _Right) { return _Left == _Right || abs(_Left - _Right) / (abs(_Left) + abs(_Right)) < 0.000001; }
 
 
 template <typename _Ty>
@@ -248,12 +259,29 @@ constexpr bool compare(ListNode_<_Ty> * const & _Left, ListNode_<_Ty> * const & 
   return true;
 }
 template <typename _Elem, typename _Traits, typename _Ty>
-constexpr basic_ostream<_Elem, _Traits> & print(basic_ostream<_Elem, _Traits> & _Ostr, ListNode_<_Ty> * const & _Arg) {
+constexpr basic_ostream<_Elem, _Traits> & write(basic_ostream<_Elem, _Traits> & _Ostr, ListNode_<_Ty> * const & _Arg) {
   _Ostr << "(";
   auto p = _Arg;
   while (p != nullptr) {
-    print(_Ostr << "> ", p->val);
+    write(_Ostr << "> ", p->val);
     p = p->next;
   }
   return _Ostr << " )";
+}
+
+
+template <typename _Ty>
+struct Interval_ {
+  _Ty start;
+  _Ty end;
+  Interval_() : start(0), end(0) {}
+  Interval_(_Ty s, _Ty e) : start(s), end(e) {}
+};
+using Interval = Interval_<int>;
+
+template <typename _Ty>
+constexpr bool compare(Interval_<_Ty> const & _Left, Interval_<_Ty> const & _Right) { return _Left.start == _Right.start && _Left.end == _Right.end; }
+template <typename _Elem, typename _Traits, typename _Ty>
+constexpr basic_ostream<_Elem, _Traits> & write(basic_ostream<_Elem, _Traits> & _Ostr, Interval_<_Ty> const & _Arg) {
+  return _Ostr << "{" << _Arg.start << " " << _Arg.end << "}";
 }

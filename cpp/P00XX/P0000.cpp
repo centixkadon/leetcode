@@ -46,7 +46,7 @@ constexpr bool compare(Elem const & _Left, Elem const & _Right) {
   return _Left.v == _Right.v;
 }
 template <typename _Elem, typename _Traits>
-constexpr basic_ostream<_Elem, _Traits> & print(basic_ostream<_Elem, _Traits> & _Ostr, Elem const & _Arg) {
+constexpr basic_ostream<_Elem, _Traits> & write(basic_ostream<_Elem, _Traits> & _Ostr, Elem const & _Arg) {
   return _Ostr << "{v: " << _Arg.v << "}";
 }
 
