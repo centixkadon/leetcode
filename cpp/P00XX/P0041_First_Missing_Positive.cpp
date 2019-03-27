@@ -5,8 +5,8 @@ class Solution {
 public:
   int firstMissingPositive(vector<int> & nums) {
     for (size_t i = 0; i < nums.size(); ++i) {
-      while (0 < nums[i] && nums[i] <= nums.size() && nums[i] != i + 1) {
-        size_t tmp = nums[i];
+      while (0 < nums[i] && size_t(nums[i]) <= nums.size() && size_t(nums[i]) != i + 1) {
+        auto tmp = nums[i];
         if (nums[tmp - 1] == tmp) break;
         nums[i] = nums[tmp - 1];
         nums[tmp - 1] = tmp;
@@ -14,7 +14,7 @@ public:
     }
 
     for (size_t i = 0; i < nums.size(); ++i) {
-      if (nums[i] != i + 1) return i + 1;
+      if (nums[i] <= 0 || size_t(nums[i]) != i + 1) return i + 1;
     }
     return nums.size() + 1;
   }

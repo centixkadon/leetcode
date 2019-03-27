@@ -3,14 +3,14 @@
 
 class Solution {
 public:
-  void combinationSum2Dfs(vector<vector<int>> & answers, vector<int> & answer, vector<int> & candidatesUnique, vector<size_t> & candidatesCount, int target, size_t i = 0) {
+  void combinationSum2Dfs(vector<vector<int>> & answers, vector<int> & answer, vector<int> & candidatesUnique, vector<size_t> & candidatesCount, size_t target, size_t i = 0) {
     if (i == candidatesUnique.size()) {
       if (target == 0) answers.push_back(answer);
       return;
     }
 
     auto sz = answer.size();
-    for (int j = 0; j <= candidatesCount[i] && candidatesUnique[i] * j <= target; ++j) {
+    for (size_t j = 0; j <= candidatesCount[i] && candidatesUnique[i] * j <= target; ++j) {
       combinationSum2Dfs(answers, answer, candidatesUnique, candidatesCount, target - candidatesUnique[i] * j, i + 1);
       answer.push_back(candidatesUnique[i]);
     }
