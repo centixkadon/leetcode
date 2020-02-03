@@ -15,8 +15,6 @@ public:
   vector<size_t> unordered(vector<size_t> v) { return move(v); }
 };
 
-#if 1
-
 int main() {
   {
     auto check = solve(&Solution::vec);
@@ -51,16 +49,3 @@ constexpr basic_ostream<_Elem, _Traits> & write(basic_ostream<_Elem, _Traits> & 
 }
 
 Settings;
-
-#else
-
-int main() {
-  {
-    auto check = solve(&Solution::);
-  }
-  return 0;
-}
-
-Settings;
-
-#endif
