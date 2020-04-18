@@ -143,15 +143,11 @@ public:
 };
 
 int main() {
-  auto cerr_buffer = cerr.rdbuf(nullptr);
   {
     auto check = solve(&Solution::run);
     check({ 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0 }, { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
-    cerr.rdbuf(cerr_buffer);
     check({ 40.0, 26.0, 16.0, 15.0 }, { 40, 12, 16, 14 });
-    cerr.rdbuf(nullptr);
   }
-  cerr.rdbuf(cerr_buffer);
   return 0;
 }
 

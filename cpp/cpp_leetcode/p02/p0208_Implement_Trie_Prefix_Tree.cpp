@@ -81,17 +81,13 @@ public:
 };
 
 int main() {
-  auto cerr_buffer = cerr.rdbuf(nullptr);
   {
     auto check = solve(&Solution::run);
-    cerr.rdbuf(cerr_buffer);
-    cerr.rdbuf(nullptr);
     check({ true, false, false, true, true, true }, { { 0, "abc" }, { 1, "abc" }, { 1, "ab" }, { 1, "a" }, { 2, "abc" }, { 2, "ab" }, { 2, "a" } });
     check({ true, true, false, true, true, true }, { { 0, "abc" }, { 0, "ab" }, { 1, "abc" }, { 1, "ab" }, { 1, "a" }, { 2, "abc" }, { 2, "ab" }, { 2, "a" } });
     check({ true, false, true, true, true, true }, { { 0, "abc" }, { 0, "a" }, { 1, "abc" }, { 1, "ab" }, { 1, "a" }, { 2, "abc" }, { 2, "ab" }, { 2, "a" } });
     check({ false, false, false, false, false, false }, { { 0, "b" }, { 1, "abc" }, { 1, "ab" }, { 1, "a" }, { 2, "abc" }, { 2, "ab" }, { 2, "a" } });
   }
-  cerr.rdbuf(cerr_buffer);
   return 0;
 }
 

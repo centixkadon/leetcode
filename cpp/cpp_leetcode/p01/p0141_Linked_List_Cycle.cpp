@@ -30,18 +30,14 @@ public:
 };
 
 int main() {
-  auto cerr_buffer = cerr.rdbuf(nullptr);
   {
     auto check = solve(&Solution::hasCycleCheck);
-    cerr.rdbuf(cerr_buffer);
-    cerr.rdbuf(nullptr);
     check(false, {}, -1);
     check(true, { 1 }, 0);
     check(false, { 1 }, -1);
     check(true, { 3, 2, 0, -4 }, 1);
     check(true, { 1, 2 }, 0);
   }
-  cerr.rdbuf(cerr_buffer);
   return 0;
 }
 

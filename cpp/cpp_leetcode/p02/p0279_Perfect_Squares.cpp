@@ -19,15 +19,11 @@ public:
 };
 
 int main() {
-  auto cerr_buffer = cerr.rdbuf(nullptr);
   {
     auto check = solve(&Solution::numSquares);
-    cerr.rdbuf(cerr_buffer);
-    cerr.rdbuf(nullptr);
     check(3, 12);
     check(2, 13);
   }
-  cerr.rdbuf(cerr_buffer);
   return 0;
 }
 

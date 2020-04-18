@@ -21,18 +21,14 @@ public:
 };
 
 int main() {
-  auto cerr_buffer = cerr.rdbuf(nullptr);
   {
     auto check = solve(&Solution::productExceptSelf);
-    cerr.rdbuf(cerr_buffer);
-    cerr.rdbuf(nullptr);
     check({}, {});
     check({ 1 }, { 2 });
     check({ 5, 3 }, { 3, 5 });
     check({ 35, 14, 10 }, { 2, 5, 7 });
     check({ 24, 12, 8, 6 }, { 1, 2, 3, 4 });
   }
-  cerr.rdbuf(cerr_buffer);
   return 0;
 }
 

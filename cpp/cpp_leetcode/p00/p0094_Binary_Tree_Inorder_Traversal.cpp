@@ -22,17 +22,13 @@ public:
 };
 
 int main() {
-  auto cerr_buffer = cerr.rdbuf(nullptr);
   {
     auto check = solve(&Solution::inorderTraversal);
-    cerr.rdbuf(cerr_buffer);
-    cerr.rdbuf(nullptr);
     check({}, {});
     check({ 1 }, { 1 });
     check({ 1, 3, 2 }, { 1, { {}, { 2, { 3 } } } });
     check({ 1, 2, 3, 4, 5, 6, 7 }, { 4, { { 2, { 1, 3 } }, { 6, { 5, 7 } } } });
   }
-  cerr.rdbuf(cerr_buffer);
   return 0;
 }
 

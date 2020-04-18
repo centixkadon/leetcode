@@ -42,15 +42,11 @@ private:
 };
 
 int main() {
-  auto cerr_buffer = cerr.rdbuf(nullptr);
   {
     auto check = solve(&Solution::numIslands);
-    cerr.rdbuf(cerr_buffer);
-    cerr.rdbuf(nullptr);
     check(1, { "11110", "11010", "11000", "00000" });
     check(3, { "11000", "11000", "00100", "00011" });
   }
-  cerr.rdbuf(cerr_buffer);
   return 0;
 }
 

@@ -64,11 +64,8 @@ public:
 };
 
 int main() {
-  auto cerr_buffer = cerr.rdbuf(nullptr);
   {
     auto check = solve(&Solution::sortList);
-    cerr.rdbuf(cerr_buffer);
-    cerr.rdbuf(nullptr);
     check({}, {});
     check({ 4 }, { 4 });
     check({ 2, 4 }, { 4, 2 });
@@ -76,7 +73,6 @@ int main() {
     check({ 1, 2, 3, 4 }, { 4, 2, 1, 3 });
     check({ -1, 0, 3, 4, 5 }, { -1, 5, 3, 4, 0 });
   }
-  cerr.rdbuf(cerr_buffer);
   return 0;
 }
 

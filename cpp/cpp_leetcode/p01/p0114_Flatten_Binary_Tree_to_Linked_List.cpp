@@ -31,11 +31,8 @@ public:
 };
 
 int main() {
-  auto cerr_buffer = cerr.rdbuf(nullptr);
   {
     auto check = solve(&Solution::flattenCheck);
-    cerr.rdbuf(cerr_buffer);
-    cerr.rdbuf(nullptr);
     check({}, {});
     check({ 1 }, { 1 });
     check({ 1, { {}, 2 } }, { 1, { 2 } });
@@ -43,7 +40,6 @@ int main() {
     check({ 1, { {}, { 2, { {}, 3 } } } }, { 1, { 2, 3 } });
     check({ 1, { {}, { 2, { {}, { 3, { {}, { 4, { {}, { 5, { {}, 6 } } } } } } } } } }, { 1, { { 2, { 3, 4 } }, { 5, { {}, 6 } } } });
   }
-  cerr.rdbuf(cerr_buffer);
   return 0;
 }
 

@@ -20,15 +20,11 @@ public:
 };
 
 int main() {
-  auto cerr_buffer = cerr.rdbuf(nullptr);
   {
     auto check = solve(&Solution::findDuplicate);
-    cerr.rdbuf(cerr_buffer);
-    cerr.rdbuf(nullptr);
     check(2, { 1, 3, 4, 2, 2 });
     check(3, { 3, 1, 3, 4, 2 });
   }
-  cerr.rdbuf(cerr_buffer);
   return 0;
 }
 

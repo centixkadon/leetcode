@@ -30,14 +30,10 @@ public:
 };
 
 int main() {
-  auto cerr_buffer = cerr.rdbuf(nullptr);
   {
     auto check = solve(&Solution::maximalSquare);
-    cerr.rdbuf(cerr_buffer);
-    cerr.rdbuf(nullptr);
     check(4, { "10100", "10111", "11111", "10010" });
   }
-  cerr.rdbuf(cerr_buffer);
   return 0;
 }
 

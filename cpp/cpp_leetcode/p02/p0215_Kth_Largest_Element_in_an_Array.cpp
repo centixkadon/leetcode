@@ -26,11 +26,8 @@ public:
 };
 
 int main() {
-  auto cerr_buffer = cerr.rdbuf(nullptr);
   {
     auto check = solve(&Solution::findKthLargest);
-    cerr.rdbuf(cerr_buffer);
-    cerr.rdbuf(nullptr);
     check(6, { 3, 2, 1, 5, 6, 4 }, 1);
     check(5, { 3, 2, 1, 5, 6, 4 }, 2);
     check(4, { 3, 2, 1, 5, 6, 4 }, 3);
@@ -39,7 +36,6 @@ int main() {
     check(1, { 3, 2, 1, 5, 6, 4 }, 6);
     check(4, { 3, 2, 3, 1, 2, 4, 5, 5, 6 }, 4);
   }
-  cerr.rdbuf(cerr_buffer);
   return 0;
 }
 

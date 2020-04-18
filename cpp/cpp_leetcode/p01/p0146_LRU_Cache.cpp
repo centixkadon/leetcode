@@ -63,15 +63,11 @@ public:
 };
 
 int main() {
-  auto cerr_buffer = cerr.rdbuf(nullptr);
   {
     auto check = solve(&Solution::run);
-    cerr.rdbuf(cerr_buffer);
-    cerr.rdbuf(nullptr);
     check({ 1, -1, -1, 3, 4 }, 2, { { 1, 1 }, { 2, 2 }, { 1 }, { 3, 3 }, { 2 }, { 4, 4 }, { 1 }, { 3 }, { 4 } });
     check({ -1, 3 }, 2, { { 2, 1 }, { 1, 1 }, { 2, 3 }, { 4, 1 }, { 1 }, { 2 } });
   }
-  cerr.rdbuf(cerr_buffer);
   return 0;
 }
 

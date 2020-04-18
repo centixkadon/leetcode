@@ -48,17 +48,13 @@ public:
 };
 
 int main() {
-  auto cerr_buffer = cerr.rdbuf(nullptr);
   {
     auto check = solve(&Solution::maximalRectangle);
-    cerr.rdbuf(cerr_buffer);
-    cerr.rdbuf(nullptr);
     check(0, {});
     check(0, { "" });
     check(6, { "10100", "10111", "11111", "10010" });
     check(2, { "10", "10" });
   }
-  cerr.rdbuf(cerr_buffer);
   return 0;
 }
 

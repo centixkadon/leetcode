@@ -17,16 +17,12 @@ public:
 };
 
 int main() {
-  auto cerr_buffer = cerr.rdbuf(nullptr);
   {
     auto check = solve(&Solution::numTrees);
-    cerr.rdbuf(cerr_buffer);
-    cerr.rdbuf(nullptr);
     check(1, 1);
     check(2, 2);
     check(5, 3);
   }
-  cerr.rdbuf(cerr_buffer);
   return 0;
 }
 

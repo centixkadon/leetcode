@@ -35,15 +35,11 @@ public:
 };
 
 int main() {
-  auto cerr_buffer = cerr.rdbuf(nullptr);
   {
     auto check = solve(&Solution::isSymmetric);
-    cerr.rdbuf(cerr_buffer);
-    cerr.rdbuf(nullptr);
     check(true, { 1, { { 2, { 3, 4 } }, { 2, { 4, 3 } } } });
     check(false, { 1, { { 2, { {}, 3 } }, { 2, { {}, 3 } } } });
   }
-  cerr.rdbuf(cerr_buffer);
   return 0;
 }
 

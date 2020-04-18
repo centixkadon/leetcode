@@ -20,16 +20,12 @@ public:
 };
 
 int main() {
-  auto cerr_buffer = cerr.rdbuf(nullptr);
   {
     auto check = solve(&Solution::levelOrder);
-    cerr.rdbuf(cerr_buffer);
-    cerr.rdbuf(nullptr);
     check({}, {});
     check({ { 1 } }, { 1 });
     check({ { 3 }, { 9, 20 }, { 15, 7 } }, { 3, { 9, { 20, { 15, 7 } } } });
   }
-  cerr.rdbuf(cerr_buffer);
   return 0;
 }
 

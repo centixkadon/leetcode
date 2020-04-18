@@ -43,17 +43,13 @@ public:
 };
 
 int main() {
-  auto cerr_buffer = cerr.rdbuf(nullptr);
   {
     auto check = solve_unordered(&Solution::wordBreak);
-    cerr.rdbuf(cerr_buffer);
-    cerr.rdbuf(nullptr);
     check({ "leet code" }, "leetcode", { "leet", "code" });
     check({ "cats and dog", "cat sand dog" }, "catsanddog", { "cat", "cats", "and", "sand", "dog" });
     check({ "pine apple pen apple", "pineapple pen apple", "pine applepen apple" }, "pineapplepenapple", { "apple", "pen", "applepen", "pine", "pineapple" });
     check({}, "catsandog", { "cats", "dog", "sand", "and", "cat" });
   }
-  cerr.rdbuf(cerr_buffer);
   return 0;
 }
 

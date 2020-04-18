@@ -19,16 +19,12 @@ public:
 };
 
 int main() {
-  auto cerr_buffer = cerr.rdbuf(nullptr);
   {
     auto check = solve(&Solution::wordBreak);
-    cerr.rdbuf(cerr_buffer);
-    cerr.rdbuf(nullptr);
     check(true, "leetcode", { "leet", "code" });
     check(true, "applepenapple", { "apple", "pen" });
     check(false, "catsandog", { "cats", "dog", "sand", "and", "cat" });
   }
-  cerr.rdbuf(cerr_buffer);
   return 0;
 }
 

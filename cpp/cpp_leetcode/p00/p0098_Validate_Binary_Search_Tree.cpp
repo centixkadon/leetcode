@@ -19,17 +19,13 @@ public:
 };
 
 int main() {
-  auto cerr_buffer = cerr.rdbuf(nullptr);
   {
     auto check = solve(&Solution::isValidBST);
-    cerr.rdbuf(cerr_buffer);
-    cerr.rdbuf(nullptr);
     check(true, { 2147483647 });
     check(true, { 2, { 1, 3 } });
     check(false, { 1, { 1 } });
     check(false, { 5, { 1, { 4, { 3, 6 } } } });
   }
-  cerr.rdbuf(cerr_buffer);
   return 0;
 }
 

@@ -93,6 +93,14 @@ public:
   virtual ~Checker() { cout << "Point: " << (Q - X) << " / " << Q << endl; }
 
   void operator()(clone_from_t<_Ty> const & _Ans, clone_from_t<_Types> const &... _Args) {
+    auto cerr_buffer = cerr.rdbuf(nullptr);
+    check(_Ans, _Args...);
+    cerr.rdbuf(cerr_buffer);
+  }
+  void debug(clone_from_t<_Ty> const & _Ans, clone_from_t<_Types> const &... _Args) { check(_Ans, _Args...); }
+
+private:
+  void check(clone_from_t<_Ty> const & _Ans, clone_from_t<_Types> const &... _Args) {
     _Solution s;
     _Ty && ans = (s.*f)(forward_to<_Types>(clone<_Types>(_Args))...);
     _Ty && _ans = clone<_Ty>(_Ans);
@@ -110,7 +118,6 @@ public:
     }
   }
 
-private:
   _Ty (_Solution::*f)(_Types...);
   size_t X, Q;
   static string const title;

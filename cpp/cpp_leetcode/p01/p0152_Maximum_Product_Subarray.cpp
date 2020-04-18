@@ -18,17 +18,13 @@ public:
 };
 
 int main() {
-  auto cerr_buffer = cerr.rdbuf(nullptr);
   {
     auto check = solve(&Solution::maxProduct);
-    cerr.rdbuf(cerr_buffer);
-    cerr.rdbuf(nullptr);
     check(1, { 1 });
     check(-1, { -1 });
     check(6, { 2, 3, -2, 4 });
     check(0, { -2, 0, -1 });
   }
-  cerr.rdbuf(cerr_buffer);
   return 0;
 }
 

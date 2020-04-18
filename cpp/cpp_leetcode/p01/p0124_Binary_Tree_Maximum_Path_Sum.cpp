@@ -22,18 +22,14 @@ private:
 };
 
 int main() {
-  auto cerr_buffer = cerr.rdbuf(nullptr);
   {
     auto check = solve(&Solution::maxPathSum);
-    cerr.rdbuf(cerr_buffer);
-    cerr.rdbuf(nullptr);
     check(1, { 1 });
     check(-1, { -1 });
     check(3, { 1, { 2 } });
     check(6, { 1, { 2, 3 } });
     check(42, { -10, { 9, { 20, { 15, 7 } } } });
   }
-  cerr.rdbuf(cerr_buffer);
   return 0;
 }
 
