@@ -20,7 +20,7 @@ constexpr decay_t<_Ty> clone(clone_from_t<_Ty> const & _Arg);
 template <typename _Ty1, typename _Ty2>
 constexpr _Ty1 & construct(_Ty1 & _Left, _Ty2 const & _Right);
 template <typename _Ty>
-constexpr _Ty & _construct1(_Ty & _Left, _Ty const & _Right, arithmetic_data_tag) { return _Left = _Right; }
+constexpr _Ty & _construct1(_Ty & _Left, _Ty const & _Right, basic_data_tag) { return _Left = _Right; }
 template <typename _Ty>
 constexpr _Ty & _construct1(_Ty & _Left, _Ty const & _Right, element_data_tag) { return _Left = move(_Ty(_Right)); }
 template <typename _Ty>
@@ -56,7 +56,7 @@ constexpr _Ty forward_to(decay_t<_Ty> && _Arg) { return forward_to<_Ty>(forward<
 template <typename _Ty>
 constexpr bool compare(_Ty const & _Left, _Ty const & _Right);
 template <typename _Ty>
-constexpr bool _compare1(_Ty const & _Left, _Ty const & _Right, arithmetic_data_tag) { return _Left == _Right; }
+constexpr bool _compare1(_Ty const & _Left, _Ty const & _Right, basic_data_tag) { return _Left == _Right; }
 template <typename _Ty>
 constexpr bool _compare1(_Ty const & _Left, _Ty const & _Right, element_data_tag) { return _Left == _Right; }
 template <typename _Ty>

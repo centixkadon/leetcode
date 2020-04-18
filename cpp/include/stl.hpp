@@ -120,13 +120,13 @@
 
 
 
-struct arithmetic_data_tag {};
+struct basic_data_tag {};
 struct element_data_tag {};
 struct container_data_tag {};
 struct adapter_data_tag {};
 
-struct arithmetic_data_traits {
-  using data_category = arithmetic_data_tag;
+struct basic_data_traits {
+  using data_category = basic_data_tag;
 };
 struct element_data_traits {
   using data_category = element_data_tag;
@@ -139,7 +139,7 @@ struct adapter_data_traits {
 };
 
 template <typename _Ty>
-struct data_traits : std::conditional_t<std::is_arithmetic<_Ty>::value, arithmetic_data_traits, element_data_traits> {};
+struct data_traits : std::conditional_t<std::is_arithmetic<_Ty>::value || std::is_array<_Ty>::value || std::is_pointer<_Ty>::value, basic_data_traits, element_data_traits> {};
 
 template <typename _Ty, size_t _Size>
 struct data_traits<std::array<_Ty, _Size>> : container_data_traits {};
@@ -189,7 +189,7 @@ inline std::basic_ostream<_Elem, _Traits> & _write2(std::basic_ostream<_Elem, _T
 }
 
 template <typename _Elem, typename _Traits, typename _Ty>
-inline std::basic_ostream<_Elem, _Traits> & _write1(std::basic_ostream<_Elem, _Traits> & _Ostr, _Ty const & _Arg, arithmetic_data_tag) {
+inline std::basic_ostream<_Elem, _Traits> & _write1(std::basic_ostream<_Elem, _Traits> & _Ostr, _Ty const & _Arg, basic_data_tag) {
   return _Ostr << _Arg;
 }
 template <typename _Elem, typename _Traits, typename _Alloc>
