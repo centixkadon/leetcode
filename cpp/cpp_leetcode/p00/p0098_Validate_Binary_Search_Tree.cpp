@@ -22,9 +22,9 @@ int main() {
   {
     auto check = solve(&Solution::isValidBST);
     check(true, { 2147483647 });
-    check(true, { 2, { 1, 3 } });
+    check(true, { 2, 1, 3 });
     check(false, { 1, { 1 } });
-    check(false, { 5, { 1, { 4, { 3, 6 } } } });
+    check(false, { 5, 1, 4, {}, {}, 3, 6 });
   }
   return 0;
 }

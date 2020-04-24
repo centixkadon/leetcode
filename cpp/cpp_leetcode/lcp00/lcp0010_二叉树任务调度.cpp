@@ -34,9 +34,9 @@ public:
 int main() {
   {
     auto check = solve(&Solution::minimalExecTime);
-    check(121, { 47, { 74, 31 } });
-    check(87, { 15, { { 21, { { 24, { 27, 26 } } } } } });
-    check(7.5, { 1, { 3, { 2, { 4, 4 } } } });
+    check(121, { 47, 74, 31 });
+    check(87, { 15, 21, {}, 24, {}, 27, 26 });
+    check(7.5, { 1, 3, 2, {}, {}, 4, 4 });
   }
   return 0;
 }

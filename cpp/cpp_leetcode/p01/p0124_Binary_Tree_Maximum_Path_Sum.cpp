@@ -26,9 +26,9 @@ int main() {
     auto check = solve(&Solution::maxPathSum);
     check(1, { 1 });
     check(-1, { -1 });
-    check(3, { 1, { 2 } });
-    check(6, { 1, { 2, 3 } });
-    check(42, { -10, { 9, { 20, { 15, 7 } } } });
+    check(3, { 1, 2 });
+    check(6, { 1, 2, 3 });
+    check(42, { -10, 9, 20, {}, {}, 15, 7 });
   }
   return 0;
 }

@@ -24,8 +24,8 @@ public:
     for (auto t : tp) p = t ? p->right : p->left;
     for (auto t : tq) q = t ? q->right : q->left;
 
-    auto ans = lowestCommonAncestor(root, p, q);
-    return ans ? ans->val : -1;
+    auto r = lowestCommonAncestor(root, p, q);
+    return r ? r->val : -1;
   }
 
 private:
@@ -35,8 +35,8 @@ private:
 int main() {
   {
     auto check = solve(&Solution::lowestCommonAncestorTest);
-    check(3, { 3, { { 5, { { 6 }, { 2, { { 7 }, { 4 } } } } }, { 1, { { 0 }, { 8 } } } } }, { false }, { true });
-    check(5, { 3, { { 5, { { 6 }, { 2, { { 7 }, { 4 } } } } }, { 1, { { 0 }, { 8 } } } } }, { false }, { false, true, true });
+    check(3, { 3, 5, 1, 6, 2, 0, 8, {}, {}, 7, 4 }, { false }, { true });
+    check(5, { 3, 5, 1, 6, 2, 0, 8, {}, {}, 7, 4 }, { false }, { false, true, true });
   }
   return 0;
 }

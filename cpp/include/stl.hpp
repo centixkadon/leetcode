@@ -203,6 +203,10 @@ inline std::basic_ostream<_Elem, _Traits> & _write1(std::basic_ostream<_Elem, _T
   return write(write(_Ostr << "<", _Arg.first) << " ", _Arg.second) << ">";
 }
 template <typename _Elem, typename _Traits, typename... _Types>
+inline std::basic_ostream<_Elem, _Traits> & _write1(std::basic_ostream<_Elem, _Traits> & _Ostr, std::tuple<> const &, element_data_tag) {
+  return _Ostr << "()";
+}
+template <typename _Elem, typename _Traits, typename... _Types>
 inline std::basic_ostream<_Elem, _Traits> & _write1(std::basic_ostream<_Elem, _Traits> & _Ostr, std::tuple<_Types...> const & _Arg, element_data_tag) {
   return _write2(_Ostr, _Arg, std::index_sequence_for<_Types...>());
 }

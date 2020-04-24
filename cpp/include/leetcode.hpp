@@ -10,8 +10,8 @@ template <typename _Ty>
 struct clone_from { using type = _Ty; };
 template <typename _Ty>
 using clone_from_t = typename clone_from<decay_t<_Ty>>::type;
-template <typename _Ty, typename _Alloc>
-struct clone_from<vector<_Ty, allocator<_Alloc>>> { using type = decay_t<vector<clone_from_t<_Ty>, allocator<clone_from_t<_Alloc>>>>; };
+template <typename _Ty>
+struct clone_from<vector<_Ty, allocator<_Ty>>> { using type = decay_t<vector<clone_from_t<_Ty>, allocator<clone_from_t<_Ty>>>>; };
 
 
 template <typename _Ty>
@@ -111,7 +111,7 @@ private:
 
     ++Q;
     if (!compare(ans, _ans)) {
-      write(cout << Q << " Q: ", make_tuple(clone<_Types>(_Args)...)) << endl;
+      write(cout << Q << " Q: ", clone<_Types>(_Args)...) << endl;
       write(cout << Q << " O: ", _ans) << endl;
       write(cout << Q << " X: ", ans) << endl;
       ++X;
@@ -161,7 +161,7 @@ vector<char> & construct(vector<char> & _Left, clone_from_t<vector<char>> const 
 
 
 template <>
-constexpr bool compare(double const & _Left, double const & _Right) { return _Left == _Right || abs(_Left - _Right) / (abs(_Left) + abs(_Right)) < 0.000001; }
+constexpr bool compare(double const & _Left, double const & _Right) { return _Left == _Right || abs(_Left - _Right) / (abs(_Left) + abs(_Right)) < 1.0 / 1048576.0; }
 
 
 template <typename _Ty>
@@ -226,6 +226,20 @@ private:
 };
 
 template <typename _Ty>
+class TreeElement {
+public:
+  TreeElement() : _Null(true) {}
+  TreeElement(_Ty const & val) : _Null(false), _Val(val) {}
+
+  inline operator bool() const { return !_Null; }
+  inline operator _Ty() const { return _Val; }
+
+private:
+  bool _Null;
+  _Ty _Val;
+};
+
+template <typename _Ty>
 struct TreeNode_ {
   _Ty val;
   TreeNode_<_Ty> * left;
@@ -235,17 +249,19 @@ struct TreeNode_ {
 using TreeNode = TreeNode_<int>;
 
 template <typename _Ty>
-struct clone_from<TreeNode_<_Ty> *> { using type = Tree<clone_from_t<_Ty>>; };
+struct clone_from<TreeNode_<_Ty> *> { using type = vector<TreeElement<clone_from_t<_Ty>>>; };
 template <typename _Ty>
 constexpr TreeNode_<_Ty> *& construct(TreeNode_<_Ty> *& _Left, clone_from_t<TreeNode_<_Ty> *> const & _Arg) {
   _Left = nullptr;
-  if (_Arg) {
-    _Left = new TreeNode_<_Ty>(clone<_Ty>(_Arg));
-    auto p = _Arg.begin();
-    if (p != _Arg.end()) {
-      construct(_Left->left, *p);
-      ++p;
-      if (p != _Arg.end()) construct(_Left->right, *p);
+  queue<TreeNode_<_Ty> **> _Queue;
+  _Queue.push(&_Left);
+  for (auto const & _Elem : _Arg) {
+    auto p = _Queue.front();
+    _Queue.pop();
+    if (_Elem) {
+      *p = new TreeNode_<_Ty>(clone<_Ty>(_Elem));
+      _Queue.push(&(*p)->left);
+      _Queue.push(&(*p)->right);
     }
   }
   return _Left;
@@ -263,22 +279,10 @@ constexpr bool compare(TreeNode_<_Ty> * const & _Left, TreeNode_<_Ty> * const & 
 template <typename _Elem, typename _Traits, typename _Ty>
 constexpr basic_ostream<_Elem, _Traits> & write(basic_ostream<_Elem, _Traits> & _Ostr, TreeNode_<_Ty> * const & _Arg) {
   if (_Arg) {
-    switch (0) {
-    default:
-    case 0:
-      write(_Ostr << "( ", _Arg->val);
-      if (_Arg->left) write(_Ostr << " <", _Arg->left);
-      if (_Arg->right) write(_Ostr << " >", _Arg->right);
-      _Ostr << " )";
-      break;
-    case 1:
-      _Ostr << "( ";
-      if (_Arg->left) write(_Ostr, _Arg->left) << "< ";
-      write(_Ostr, _Arg->val);
-      if (_Arg->right) write(_Ostr << " >", _Arg->right);
-      _Ostr << " )";
-      break;
-    }
+    write(_Ostr << "( ", _Arg->val);
+    if (_Arg->left) write(_Ostr << " <", _Arg->left);
+    if (_Arg->right) write(_Ostr << " >", _Arg->right);
+    _Ostr << " )";
   }
   return _Ostr;
 }

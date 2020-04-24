@@ -24,7 +24,7 @@ int main() {
     auto check = solve(&Solution::levelOrder);
     check({}, {});
     check({ { 1 } }, { 1 });
-    check({ { 3 }, { 9, 20 }, { 15, 7 } }, { 3, { 9, { 20, { 15, 7 } } } });
+    check({ { 3 }, { 9, 20 }, { 15, 7 } }, { 3, 9, 20, {}, {}, 15, 7 });
   }
   return 0;
 }

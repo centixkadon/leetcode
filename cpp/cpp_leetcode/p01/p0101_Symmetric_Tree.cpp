@@ -37,8 +37,8 @@ public:
 int main() {
   {
     auto check = solve(&Solution::isSymmetric);
-    check(true, { 1, { { 2, { 3, 4 } }, { 2, { 4, 3 } } } });
-    check(false, { 1, { { 2, { {}, 3 } }, { 2, { {}, 3 } } } });
+    check(true, { 1, 2, 2, 3, 4, 4, 3 });
+    check(false, { 1, 2, 2, {}, 3, {}, 3 });
   }
   return 0;
 }
