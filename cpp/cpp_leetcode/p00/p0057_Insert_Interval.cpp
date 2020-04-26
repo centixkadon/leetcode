@@ -3,32 +3,32 @@
 
 class Solution {
 public:
-  vector<Interval> insert(vector<Interval> & intervals, Interval newInterval) {
+  vector<vector<int>> insert(vector<vector<int>> & intervals, vector<int> & newInterval) {
     if (intervals.empty()) return { newInterval };
 
     size_t l = 0, r = intervals.size();
     while (l < r) {
       size_t m = (l + r) >> 1;
-      if (intervals[m].end < newInterval.start) {
+      if (intervals[m][1] < newInterval[0]) {
         l = m + 1;
       } else {
         r = m;
       }
     }
-    if (l == intervals.size() || newInterval.end < intervals[l].start) {
+    if (l == intervals.size() || newInterval[1] < intervals[l][0]) {
       intervals.insert(intervals.begin() + l, newInterval);
     } else {
       size_t s = l, r = intervals.size();
       while (l < r) {
         size_t m = (l + r) >> 1;
-        if (intervals[m].start <= newInterval.end) {
+        if (intervals[m][0] <= newInterval[1]) {
           l = m + 1;
         } else {
           r = m;
         }
       }
-      intervals[s].start = min(intervals[s].start, newInterval.start);
-      intervals[s].end = max(intervals[l - 1].end, newInterval.end);
+      intervals[s][0] = min(intervals[s][0], newInterval[0]);
+      intervals[s][1] = max(intervals[l - 1][1], newInterval[1]);
       if (s + 1 != l) {
         for (size_t i = l; i < intervals.size(); ++i) {
           ++s;

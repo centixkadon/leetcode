@@ -286,20 +286,3 @@ constexpr basic_ostream<_Elem, _Traits> & write(basic_ostream<_Elem, _Traits> & 
   }
   return _Ostr;
 }
-
-
-template <typename _Ty>
-struct Interval_ {
-  _Ty start;
-  _Ty end;
-  Interval_() : start(0), end(0) {}
-  Interval_(_Ty s, _Ty e) : start(s), end(e) {}
-};
-using Interval = Interval_<int>;
-
-template <typename _Ty>
-constexpr bool compare(Interval_<_Ty> const & _Left, Interval_<_Ty> const & _Right) { return _Left.start == _Right.start && _Left.end == _Right.end; }
-template <typename _Elem, typename _Traits, typename _Ty>
-constexpr basic_ostream<_Elem, _Traits> & write(basic_ostream<_Elem, _Traits> & _Ostr, Interval_<_Ty> const & _Arg) {
-  return _Ostr << "{" << _Arg.start << " " << _Arg.end << "}";
-}
